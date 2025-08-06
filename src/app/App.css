@@ -1,0 +1,52 @@
+.page{
+    width: 100vh;
+}
+
+.container{
+    width: 200px;
+    height: 140px;
+    background-color: #3b5268;
+    border: 2px solid #f39c12;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.screen {
+    width: 150px;
+    height: 100px;
+    font-size: 40px;
+    background-color: #202a35;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input {
+    margin: 5px;
+    color: #f39c12;
+}
+
+.buttonsSection {
+    display: flex;
+    justify-content: space-around;
+}
+
+.button {
+    width: 50px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #7aa8da;
+    color: #2c3d50;
+    margin: 5px;
+
+    &:disabled{
+        color: gray
+    }
+}
+
+.error {
+    color: red;
+}
