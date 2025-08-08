@@ -1,10 +1,14 @@
 import { useState, type ChangeEvent } from "react";
 import { Button } from "../../common/components/Button/Button"
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../app/store";
+import { maxValueSelector } from "../../app/maxValue-selector";
+import { minValueSelector } from "../../app/minValue-selector";
+import { changeIntervalValuesAC } from "../../app/app-reducer";
+import { Input } from "../../common/components/Input/Input";
 
-type TCounter  = {
-    maxValue : number,
-    minValue : number,
-    setHandler: (maxValue: number, minValue: number) => void 
+type TSettings = {
+    closeSettings: () => void
 }
 
 const correctInputValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +22,14 @@ const correctInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     return e.currentTarget.value
 }
 
-export const Settings = ({maxValue, minValue, setHandler} : TCounter) => {
+export const Settings = (props: TSettings) => {
+    const closeSettings = props.closeSettings;
+
+    const maxValue = useSelector<RootState, number>(maxValueSelector);
+    const minValue = useSelector<RootState, number>(minValueSelector);
+
+    const dispatch = useDispatch<AppDispatch>();
+    
     const [max, setMax] = useState<number>(maxValue);
     const [min, setMin] = useState<number>(minValue);
     const [err, setError] = useState<boolean>(maxValue <= minValue);
@@ -39,20 +50,17 @@ export const Settings = ({maxValue, minValue, setHandler} : TCounter) => {
         setError( newMinValue >= max || newMinValue < 0);
     }
 
+    function setHandler() {
+        dispatch(changeIntervalValuesAC({maxValue: max, minValue: min}));
+        closeSettings();
+    }
+
     return(
         <div className="container">
-            <div className="">
-                <div className="input">
-                    <span>max value :</span>
-                    <input className={err ? "error": ''} type="number" value={max} onChange={onMaxChange}/>
-                </div>
-                <div className="input">
-                    <span>min value :</span>
-                    <input className={err ? "error": ''} type="number" value={min} onChange={onMinChange}/>
-                </div>
-            </div>
+            <Input label="Max Value" initValue={max} err={err} onChangeHandler={onMaxChange}/>
+            <Input label="Min Value" initValue={min} err={err} onChangeHandler={onMinChange}/>
             <div className="buttonsSection">
-                <Button name="set" clickHandler={() => setHandler(max, min)}/>
+                <Button name="set" isDisabled={err} clickHandler={setHandler}/>
             </div>
         </div>
     )

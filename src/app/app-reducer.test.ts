@@ -1,26 +1,29 @@
 import {test, expect} from 'vitest';
-import { counterReducer, changeMaxValueAC, changeMinValueAC } from './app-reducer';
+import { counterReducer, changeIntervalValuesAC, changeScreenValueAC } from './app-reducer';
 
-test('max value should be changed', () => {
+test('values should be changed', () => {
     const startState = {
         maxValue: 1,
-        minValue: 0
+        minValue: 0,
+        screenValue: 0
     }
 
-    const endState = counterReducer(startState, changeMaxValueAC(5));
+    const endState = counterReducer(startState, changeIntervalValuesAC({maxValue: 5, minValue: 2}));
 
     expect(endState.maxValue == 5);
-    expect(endState.minValue == startState.minValue);
+    expect(endState.minValue == 2);
+    expect(endState.screenValue == 2);
 })
 
-test('min value should be changed', () => {
+test('screenValue should be changed', () => {
     const startState = {
         maxValue: 1,
-        minValue: 0
+        minValue: 0,
+        screenValue: 0
     }
 
-    const endState = counterReducer(startState, changeMinValueAC(105));
+    const endState = counterReducer(startState, changeScreenValueAC(105));
 
-    expect(endState.minValue == 105);
-    expect(endState.maxValue == startState.maxValue);
+    expect(endState.screenValue == 105);
+    expect(endState.screenValue <= startState.minValue);
 })

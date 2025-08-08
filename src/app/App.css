@@ -4,10 +4,10 @@
 
 .container{
     width: 200px;
-    height: 140px;
+    height: 150px;
     background-color: #3b5268;
     border: 2px solid #f39c12;
-    padding: 15px;
+    padding: 8px;
     margin: 0 auto;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .input {
-    margin: 5px;
+    margin-bottom: 10px;
     color: #f39c12;
 }
 
